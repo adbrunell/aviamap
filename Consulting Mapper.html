@@ -4146,7 +4146,7 @@ function initApp() {
   }
 
   const savedCollapse = localStorage.getItem(COLLAPSE_LS_KEY);
-  if (savedCollapse === '1') applyCollapsed(true);
+  if (savedCollapse === '1' || savedCollapse === null) applyCollapsed(true);
   else {
     const savedWidth = parseInt(localStorage.getItem(LS_KEY), 10);
     if (Number.isFinite(savedWidth) && savedWidth > 0) {
