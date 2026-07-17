@@ -4517,7 +4517,6 @@ function initApp() {
 </div>
 <script>
 (function initMobile() {
-  if (window.innerWidth > 640) return;
   var bar = document.getElementById('mobileBar');
   var sheet = document.getElementById('mobileSheet');
   var backdrop = document.getElementById('mobBackdrop');
@@ -4527,6 +4526,12 @@ function initApp() {
   var mapBtn = document.getElementById('mobMapBtn');
   var rangeBtn = document.getElementById('mobRangeBtn');
   var current = null;
+
+  function onResize() {
+    var mob = window.innerWidth <= 640;
+    if (mob) { bar.style.display = 'flex'; sheet.style.display = 'block'; backdrop.style.display = 'none'; document.getElementById('controlPanel').style.display = 'none'; document.getElementById('rcSidePanel').style.display = 'none'; closeSheet(); }
+    else { bar.style.display = 'none'; sheet.style.display = 'none'; backdrop.style.display = 'none'; document.getElementById('controlPanel').style.display = ''; document.getElementById('rcSidePanel').style.display = ''; sheet.classList.remove('open'); }
+  }
 
   function openSheet(name) {
     current = name;
@@ -4557,10 +4562,14 @@ function initApp() {
     current = null;
   }
 
-  mapBtn.addEventListener('click', function() { if (current === 'map') closeSheet(); else openSheet('map'); });
-  rangeBtn.addEventListener('click', function() { if (current === 'range') closeSheet(); else openSheet('range'); });
-  closeBtn.addEventListener('click', closeSheet);
-  backdrop.addEventListener('click', closeSheet);
+  if (bar && sheet && backdrop) {
+    mapBtn.addEventListener('click', function() { if (current === 'map') closeSheet(); else openSheet('map'); });
+    rangeBtn.addEventListener('click', function() { if (current === 'range') closeSheet(); else openSheet('range'); });
+    closeBtn.addEventListener('click', closeSheet);
+    backdrop.addEventListener('click', closeSheet);
+    window.addEventListener('resize', onResize);
+    onResize();
+  }
 })();
 </script>
 </body>
