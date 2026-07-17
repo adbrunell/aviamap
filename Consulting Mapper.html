@@ -132,6 +132,19 @@
         #controlPanel, #rcSidePanel { display: none; }
         #mobileBar { display: flex; }
         #mobileSheet { display: block; }
+        #mobBackdrop { display: block; }
+        /* Mobile sheet content — full interaction */
+        #mobSheetContent { flex: 1; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+        #mobSheetContent .section,
+        #mobSheetContent .controls,
+        #mobSheetContent .btns,
+        #mobSheetContent .rc-side-content,
+        #mobSheetContent .filter-group,
+        #mobSheetContent .rc-upload-area,
+        #mobSheetContent .statusbar { padding-left: 0; padding-right: 0; }
+        #mobSheetContent input,
+        #mobSheetContent select,
+        #mobSheetContent textarea { font-size: 16px !important; }
         .rc-onmap-overlay .rc-output-row { font-size: 10px; padding: 4px 6px; }
         .rc-onmap-overlay .rc-ac-title { font-size: 10px; }
         .rc-onmap-overlay .rc-info-text { font-size: 9px; }
@@ -143,7 +156,7 @@
       .mob-bar-btn { background: none; border: none; padding: 8px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--textMuted); font-size: 10px; box-shadow: none; }
       .mob-bar-btn.active { color: #2563eb; }
       .mob-bar-btn svg { width: 22px; height: 22px; }
-      #mobileSheet { position: fixed; left: 0; right: 0; bottom: 0; height: 80vh; background: var(--panelBg); border-top: 2px solid var(--panelBorder); border-radius: 16px 16px 0 0; z-index: 4999; display: none; flex-direction: column; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 -8px 25px var(--panelShadow); }
+      #mobileSheet { position: fixed; left: 0; right: 0; bottom: 0; height: 80vh; background: var(--panelBg); border-top: 2px solid var(--panelBorder); border-radius: 16px 16px 0 0; z-index: 4999; display: none; flex-direction: column; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 -8px 25px var(--panelShadow); overflow: hidden; }
       #mobileSheet.open { transform: translateY(0); }
       .mob-sheet-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--panelBorder); flex-shrink: 0; }
       .mob-sheet-header h3 { margin: 0; font-size: 15px; color: var(--textPrimary); }
@@ -4539,33 +4552,50 @@ function initApp() {
 
   function onResize() {
     var mob = window.innerWidth <= 640;
-    if (mob) { bar.style.display = 'flex'; sheet.style.display = 'block'; backdrop.style.display = 'none'; document.getElementById('controlPanel').style.display = 'none'; document.getElementById('rcSidePanel').style.display = 'none'; closeSheet(); }
-    else { bar.style.display = 'none'; sheet.style.display = 'none'; backdrop.style.display = 'none'; document.getElementById('controlPanel').style.display = ''; document.getElementById('rcSidePanel').style.display = ''; sheet.classList.remove('open'); }
+    if (mob) {
+      bar.style.display = 'flex';
+      sheet.style.display = 'flex';
+      backdrop.style.display = 'none';
+      sheet.classList.remove('open');
+      document.getElementById('controlPanel').style.display = 'none';
+      document.getElementById('rcSidePanel').style.display = 'none';
+    } else {
+      bar.style.display = 'none';
+      sheet.style.display = 'none';
+      backdrop.style.display = 'none';
+      sheet.classList.remove('open');
+      document.getElementById('controlPanel').style.display = '';
+      document.getElementById('rcSidePanel').style.display = '';
+    }
   }
 
   function openSheet(name) {
     current = name;
+    sheet.classList.add('open');
+    backdrop.style.display = 'block';
     if (name === 'map') {
       title.textContent = 'Map Settings';
+      // Move original left panel content into sheet
       content.innerHTML = '';
-      var html = '';
-      var ps = document.querySelectorAll('#controlPanel .section, #controlPanel .btns, #controlPanel .statusbar');
-      ps.forEach(function(el) { html += el.outerHTML; });
-      content.innerHTML = html;
+      var lp = document.getElementById('controlPanel');
+      if (lp) {
+        var sections = lp.querySelectorAll('.section, .btns, .statusbar');
+        sections.forEach(function(el) { content.appendChild(el.cloneNode(true)); });
+      }
       mapBtn.classList.add('active');
       rangeBtn.classList.remove('active');
     } else {
       title.textContent = 'Range Circles (OASYS)';
       content.innerHTML = '';
-      // Ensure RC filters are loaded
       if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
-      var rcContent = document.querySelector('#rcSidePanel .rc-side-content');
-      if (rcContent) content.innerHTML = rcContent.innerHTML;
+      var rcEl = document.querySelector('#rcSidePanel .rc-side-content');
+      if (rcEl) {
+        var clones = rcEl.querySelectorAll('.filter-group, .rc-upload-area');
+        clones.forEach(function(el) { content.appendChild(el.cloneNode(true)); });
+      }
       rangeBtn.classList.add('active');
       mapBtn.classList.remove('active');
     }
-    sheet.classList.add('open');
-    backdrop.style.display = 'block';
   }
 
   function closeSheet() {
@@ -4577,8 +4607,8 @@ function initApp() {
   }
 
   if (bar && sheet && backdrop) {
-    mapBtn.addEventListener('click', function() { if (current === 'map') closeSheet(); else openSheet('map'); });
-    rangeBtn.addEventListener('click', function() { if (current === 'range') closeSheet(); else openSheet('range'); });
+    mapBtn.addEventListener('click', function(e) { e.stopPropagation(); if (current === 'map') closeSheet(); else openSheet('map'); });
+    rangeBtn.addEventListener('click', function(e) { e.stopPropagation(); if (current === 'range') closeSheet(); else openSheet('range'); });
     closeBtn.addEventListener('click', closeSheet);
     backdrop.addEventListener('click', closeSheet);
     window.addEventListener('resize', onResize);
