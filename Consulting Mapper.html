@@ -4545,21 +4545,18 @@ function initApp() {
   var backdrop = document.getElementById('mobBackdrop');
   var mapBtn = document.getElementById('mobMapBtn');
   var rangeBtn = document.getElementById('mobRangeBtn');
-  var current = null;
   var panel = document.getElementById('controlPanel');
   var rPanel = document.getElementById('rcSidePanel');
 
-  function resetPanel(p) {
-    if (!p) return;
-    p.style.display = 'none';
-    p.style.position = '';
-    p.style.left = ''; p.style.right = ''; p.style.top = ''; p.style.bottom = '';
-    p.style.width = ''; p.style.height = ''; p.style.zIndex = '';
-    p.style.borderRadius = ''; p.style.borderTop = ''; p.style.boxShadow = '';
-    p.style.overflow = '';
+  function hideAll() {
+    if (panel) panel.style.display = 'none';
+    if (rPanel) rPanel.style.display = 'none';
+    backdrop.style.display = 'none';
+    mapBtn.classList.remove('active');
+    rangeBtn.classList.remove('active');
   }
 
-  function showAsSheet(p, isRight) {
+  function showPanel(p, isRight) {
     if (!p) return;
     p.style.display = 'flex';
     p.style.position = 'fixed';
@@ -4580,39 +4577,32 @@ function initApp() {
     backdrop.style.display = 'block';
   }
 
-  function openMob(name) {
-    if (current === name) { closeMob(); return; }
-    current = name;
-    resetPanel(panel); resetPanel(rPanel);
-    if (name === 'map') {
-      showAsSheet(panel, false);
-      mapBtn.classList.add('active'); rangeBtn.classList.remove('active');
-      if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
-    } else {
-      if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
-      showAsSheet(rPanel, true);
-      rangeBtn.classList.add('active'); mapBtn.classList.remove('active');
-    }
+  function toggleMap() {
+    if (panel && panel.style.display === 'flex') { hideAll(); return; }
+    hideAll();
+    showPanel(panel, false);
+    mapBtn.classList.add('active');
+    if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
   }
 
-  function closeMob() {
-    resetPanel(panel); resetPanel(rPanel);
-    backdrop.style.display = 'none';
-    mapBtn.classList.remove('active'); rangeBtn.classList.remove('active');
-    current = null;
+  function toggleRange() {
+    if (rPanel && rPanel.style.display === 'flex') { hideAll(); return; }
+    hideAll();
+    if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
+    showPanel(rPanel, true);
+    rangeBtn.classList.add('active');
   }
 
   if (bar && backdrop) {
-    mapBtn.addEventListener('click', function() { openMob('map'); });
-    rangeBtn.addEventListener('click', function() { openMob('range'); });
-    backdrop.addEventListener('click', closeMob);
+    mapBtn.addEventListener('click', toggleMap);
+    rangeBtn.addEventListener('click', toggleRange);
+    backdrop.addEventListener('click', hideAll);
     window.addEventListener('resize', function() {
-      var mob = window.innerWidth <= 640;
-      if (!mob) { closeMob(); bar.style.display = 'none'; backdrop.style.display = 'none'; }
-      else if (!current) { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
+      if (window.innerWidth <= 640) { bar.style.display = 'flex'; }
+      else { hideAll(); bar.style.display = 'none'; }
     });
+    hideAll();
     bar.style.display = 'flex';
-    backdrop.style.display = 'none';
   }
 })();
 </script>
