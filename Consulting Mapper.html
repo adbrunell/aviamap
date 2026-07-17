@@ -4562,16 +4562,11 @@ function initApp() {
     if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
     panel.style.display = 'flex';
     panel.style.position = 'fixed';
-    panel.style.left = '0'; panel.style.top = '0';
-    panel.style.width = '100%'; panel.style.height = 'calc(100% - 56px)';
+    panel.style.left = '5%'; panel.style.top = '10%';
+    panel.style.width = '90%'; panel.style.height = '80%';
     panel.style.zIndex = '9999';
-    panel.style.borderRadius = '0';
+    panel.style.borderRadius = '12px';
     panel.style.overflow = 'hidden';
-    panel.style.border = 'none';
-    var ph = panel.querySelector('.panel-header');
-    if (ph) ph.style.display = 'none';
-    var ps = panel.querySelector('.panel-scroll');
-    if (ps) ps.style.paddingBottom = '12px';
     backdrop.style.display = 'block';
     mapBtn.classList.add('active');
   });
@@ -4582,17 +4577,14 @@ function initApp() {
     if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
     rPanel.style.display = 'flex';
     rPanel.style.position = 'fixed';
-    rPanel.style.left = '0'; rPanel.style.top = '0';
-    rPanel.style.width = '100%'; rPanel.style.height = 'calc(100% - 56px)';
+    rPanel.style.left = '5%'; rPanel.style.top = '10%';
+    rPanel.style.width = '90%'; rPanel.style.height = '80%';
     rPanel.style.zIndex = '9999';
-    rPanel.style.borderRadius = '0';
+    rPanel.style.borderRadius = '12px';
     rPanel.style.overflow = 'hidden';
-    rPanel.style.border = 'none';
     rPanel.classList.remove('rc-collapsed');
-    var ph2 = rPanel.querySelector('.rc-side-header');
-    if (ph2) ph2.style.display = 'none';
     var sc = rPanel.querySelector('.rc-side-content');
-    if (sc) { sc.style.display = 'block'; sc.style.overflow = 'auto'; sc.style.paddingBottom = '20px'; }
+    if (sc) { sc.style.display = 'block'; sc.style.overflow = 'auto'; }
     backdrop.style.display = 'block';
     rangeBtn.classList.add('active');
   });
