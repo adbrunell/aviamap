@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulting Map Generator — FAQ</title>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f9fafb;
+    color: #111827;
+  }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    padding: 20px;
+  }
+  details {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 0;
+  }
+  summary {
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+  }
+  summary::marker {
+    color: #2563eb;
+  }
+  p, pre, ul {
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    color: #374151;
+  }
+  pre {
+    background: #f3f4f6;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    overflow-x: auto;
+  }
+  .highlight {
+    color: #2563eb;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<h1>Consulting Map Generator — FAQ</h1>
+<div class="faq-container">
+
+<details open>
+  <summary>1. What does Consulting Map Generator do?</summary>
+  <p>It creates interactive maps showing airports, routes, and range circles. You can customize styles, zoom, and export the map as PNG or copy it to your clipboard.</p>
+</details>
+
+<details>
+  <summary>2. How do I add airports?</summary>
+  <p>Enter one IATA code per line in the <span class="highlight">Airports</span> section:</p>
+  <pre>SJK
+LHR
+JFK</pre>
+  <p>For range circles:</p>
+  <pre>900nm@MIA
+900km@MIA#ff0000</pre>
+  <p><strong>Manual entry with latitude/longitude:</strong></p>
+  <pre>XYZ 37.7749 -122.4194</pre>
+</details>
+
+<details>
+  <summary>3. How do I add routes?</summary>
+  <p>Use hyphens to chain segments:</p>
+  <pre>JFK-AMS
+MIA-MAD-CDG</pre>
+</details>
+
+<details>
+  <summary>4. How do I group routes?</summary>
+  <p>You can organize routes into groups using the keyword <code>group</code> followed by a name:</p>
+  <pre>group Europe
+MAD-FRA
+LHR-CDG
+CDG-AMS</pre>
+  <p>Click <span class="highlight">Manage route groups</span> to show/hide groups, change the color of routes and airports, adjust the line style, and set the <strong>route thickness</strong> for all routes within that group.</p>
+  <p><strong>Note on priority:</strong> Individual route edits (like changing a single route's color or arc) will always override the group's settings. Group settings, in turn, override the global styles defined in the "Style" panel.</p>
+</details>
+
+<details>
+    <summary>5. How do I group airports?</summary>
+    <p>You can organize airports into groups using the keyword <code>group</code> followed by a name:</p>
+    <pre>group Hubs
+JFK
+LHR
+FRA</pre>
+    <p>Click <span class="highlight">Manage airport groups</span> to show/hide groups and collectively set the <strong>color/radius</strong> of the airport dots and the <strong>color/size/position</strong> of their labels.</p>
+    <p><strong>Note on priority:</strong> Any style applied to an individual airport or label (by clicking on it) will always override the group's settings. Group settings, in turn, override the global styles.</p>
+</details>
+
+<details>
+  <summary>6. How do I customize the map style?</summary>
+  <p>Under <span class="highlight">Style</span>, you can change colors for ocean, countries, borders, routes, airports, labels, and range circles. Adjust widths, sizes, and fonts for labels.</p>
+</details>
+
+<details>
+  <summary>7. Can I adjust labels?</summary>
+  <ul>
+    <li>Toggle <strong>Show labels</strong></li>
+    <li>Adjust orientation and distance</li>
+    <li>Click <strong>Reset label positions</strong> to restore defaults</li>
+    <li>Drag labels directly on the map</li>
+    <li><strong>New:</strong> Click a label to open the per‑label editor (set color and font size for that label only)</li>
+  </ul>
+</details>
+
+<details>
+  <summary>8. How do I zoom or center the map?</summary>
+  <p>Use the <strong>Zoom</strong> input for precise control. To center on an airport, enter its IATA code and click <strong>Center</strong>.</p>
+</details>
+
+<details>
+  <summary>9. How do I render the map?</summary>
+  <p>Click <strong>Render Map</strong> after entering airports and routes.</p>
+</details>
+
+<details>
+  <summary>10. How do I export the map?</summary>
+  <p>Click <strong>Download PNG</strong> or <strong>Copy PNG</strong>.</p>
+  <p><strong>Important:</strong> The PNG size matches the map area on your screen. If you want the map to occupy half of a slide, reduce the map area to half of your screen size before exporting.</p>
+</details>
+
+<details>
+  <summary>11. Can I edit individual routes?</summary>
+  <p>Yes! Hover over a route and click it to change its color.</p>
+  <p><strong>Globe only:</strong> You can also adjust the arc curvature and choose the route type (<em>Arc</em> or <em>Great Circle Line</em>) under the <strong>Options</strong> tab.</p>
+</details>
+
+<details>
+  <summary>12. What if the map doesn’t load?</summary>
+  <p>Ensure internet access. If on a corporate network, CDNs may be blocked. Check the <strong>Messages</strong> area for warnings.</p>
+</details>
+
+<details>
+  <summary>13. Can I resize the control panel?</summary>
+  <p>Drag the vertical resizer between the panel and map. Width is saved automatically.</p>
+</details>
+
+<details>
+  <summary>14. How do I edit individual airport label visibility?</summary>
+  <p>The <span class="highlight">Edit Airport Label Visibility</span> feature lets you control which airport labels appear on the map without removing the airports themselves.</p>
+  <ul>
+    <li>Click <strong>Edit Airport Label Visibility</strong> next to the <strong>Show labels</strong> checkbox in the <em>Options</em> panel.</li>
+    <li>A pop-up will show all currently plotted airports with their IATA codes and names.</li>
+    <li>Use the checkboxes to toggle each label on or off. Changes apply immediately if <strong>Show labels</strong> is enabled.</li>
+    <li>Use the search bar to filter airports by code or name.</li>
+    <li>Quick actions: <strong>Show all</strong> or <strong>Hide all</strong> labels at once.</li>
+    <li>Your manual label positions (dragged on the map) are preserved even when labels are hidden.</li>
+  </ul>
+  <p><strong>Tip:</strong> Hidden labels do not appear in exported PNGs or copied images.</p>
+</details>
+
+<details>
+  <summary>15. What does the "Arc bending rule" drop‑down do?</summary>
+  <p>
+    The <strong>Arc bending rule</strong> controls the <em>orientation</em> of arcs when the
+    <span class="highlight">Route type</span> is set to <strong>Arc</strong>. It appears
+    under the <span class="highlight">Options</span> panel <em>only</em> when Route type = Arc.
+  </p>
+  <ul>
+    <li><strong>Directional</strong> (<code>east/west</code>): arcs bend based on the segment's geographic direction. Eastbound segments bow <em>up</em> on the screen (toward the northern hemisphere), while westbound segments bow <em>down</em>. This is useful when drawing Hub-and-spoke routes.</li>
+    <li><strong>Non‑directional</strong> (<code>north-up</code>): arcs always bow <em>upward</em> on the screen, regardless of east or west.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>16. How do I hide the shared border between two adjacent countries?</summary>
+  <p>You can visually merge two countries by hiding <em>only</em> the border they share.</p>
+  <ul>
+    <li><span class="highlight">Shift + right‑click</span> a country to select it.</li>
+    <li><span class="highlight">Shift + right‑click</span> an adjacent country to toggle their <em>shared</em> border.</li>
+    <li>Press <strong>Esc</strong> to cancel a pending first selection.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>17. How do I edit individual airports and labels?</summary>
+  <p><strong>Airports (dot color & radius):</strong> Click an airport dot to open its editor. Set a per‑airport color and radius.</p>
+  <p><strong>Labels (color & font size):</strong> Click a label to open its editor. Set a per‑label text color and font size.</p>
+</details>
+
+<details>
+  <summary>18. How do I edit individual country colors?</summary>
+  <p>Click over a country and the color editor will appear on the screen. You can simply change its color by filling the RGB boxes or by dragging the selector to the desired color.</p>
+</details>
+
+<details>
+  <summary>19. How do I add and edit Range Circles?</summary>
+  <p><strong>1. Radius around an Airport:</strong> Type the distance followed by the unit (nm or km), the <code>@</code> symbol, and the airport's IATA code. Example: <code>900nm@MIA</code>.</p>
+  <p><strong>2. Custom Coordinates:</strong> Start with a name for your group, then list Latitude and Longitude pairs.</p>
+  <p><strong>Edit:</strong> Click on any range circle border to adjust color, width, and line style individually.</p>
+</details>
+
+<details>
+  <summary>20. What is the Range Circle Analyzer (OASYS)?</summary>
+  <p>The <span class="highlight">Range Circle Analyzer</span> (right panel, opened by the <strong>range icon</strong> on the right edge) lets you load aircraft performance data and plot range polygons on the globe.</p>
+  <ul>
+    <li>Load data from the built-in database (<code>DB_Range Circles.js</code>) or upload an Excel file.</li>
+    <li>Filter by <strong>Departure Airport</strong>, <strong>Aircraft</strong>, <strong>Payload Definition</strong>, and <strong>Temperature Exceptions</strong>.</li>
+    <li>Adjust <strong>Passenger Weight</strong> — payload recalculates automatically.</li>
+    <li>Results are shown in a draggable panel on the map.</li>
+    <li>Use <strong>Show results on map</strong> to overlay range info on the globe.</li>
+    <li>Use <strong>Center on ranges</strong> to rotate the globe to face the range centroid.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>21. How do I filter airports inside range polygons?</summary>
+  <p>In the <span class="highlight">Range Circle Analyzer</span> panel, enable <strong>Airport types in range</strong> to plot airports that fall inside the range polygons.</p>
+  <ul>
+    <li>Select which types to show: <strong>Large</strong>, <strong>Medium</strong>, and/or <strong>Small</strong> airports.</li>
+    <li>Set <strong>Min/Max Daily Depts</strong> to filter by traffic volume.</li>
+    <li>Adjust <strong>Marker Size</strong> (Dot and Label) for all plotted airports at once.</li>
+    <li>Each airport marker is individually clickable — change its color and radius.</li>
+    <li>Labels are draggable and editable (color and font size).</li>
+    <li>The <strong>Center Marker</strong> (origin dot) can also have its Dot and Label size adjusted globally.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>22. How do I select and move result panels on the map?</summary>
+  <p>The range results and Mission Assumptions panels can be freely moved and resized on the map, just like PowerPoint objects.</p>
+  <ul>
+    <li><strong>Select:</strong> Click on a panel — a blue selection box with 8 handles appears.</li>
+    <li><strong>Move:</strong> Drag the panel to reposition it anywhere on the map.</li>
+    <li><strong>Resize:</strong> Drag any handle to resize the panel. The content stays vertically centered.</li>
+    <li><strong>Multi‑select:</strong> Hold <strong>Ctrl</strong> and click to select multiple panels at once. All selected panels move/resize together.</li>
+    <li><strong>Deselect:</strong> Click on empty space on the map.</li>
+    <li><strong>Save/Load:</strong> Panel positions are saved in the JSON file and restored on load.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>23. How does the globe view work?</summary>
+  <ul>
+    <li><strong>Rotate:</strong> Click and drag on the globe to rotate it.</li>
+    <li><strong>Pan (Shift+Drag):</strong> Hold Shift and drag to move the globe horizontally/vertically without rotating.</li>
+    <li><strong>Zoom:</strong> Scroll wheel or use the <strong>Zoom</strong> input.</li>
+    <li><strong>H. offset / V. offset / Rotation:</strong> Precise numeric controls for the exact globe position (saved in JSON).</li>
+    <li><strong>Atmosphere:</strong> Toggle a subtle atmospheric glow effect around the globe edge.</li>
+    <li><strong>Center on airport:</strong> Enter an IATA or ICAO code and click <strong>Center</strong>.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>24. How do aspect ratio and Auto mode work?</summary>
+  <p>The <strong>aspect ratio button</strong> (next to FAQ) cycles through: <strong>16:9</strong> → <strong>4:3</strong> → <strong>1:1</strong> → <strong>Auto</strong>.</p>
+  <ul>
+    <li><strong>16:9, 4:3, 1:1:</strong> The map container maintains that ratio. Results appear on the left, globe shifts right.</li>
+    <li><strong>Auto:</strong> The map fills the available space. When screen is narrow (<code>vw/vh &lt; 1.3</code>), results go below the globe with vertical scrolling. Wide screens use the side layout.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>25. What is dark mode and how do I enable it?</summary>
+  <p>Click the <strong>🌙</strong> button next to FAQ to toggle dark mode. All panels, inputs, and the map adapt automatically. The preference is saved for the next session.</p>
+</details>
+
+<details>
+  <summary>26. Can I use ICAO codes instead of IATA?</summary>
+  <p>Yes. The tool now accepts both <strong>ICAO</strong> (4 letters) and <strong>IATA</strong> (3 letters) codes everywhere: airports input, routes, center map, and range circle definitions. The built-in database contains over 10k airports with ICAO+IATA mapping.</p>
+</details>
+
+<details>
+  <summary>27. How do I save and load my work?</summary>
+  <p>Click <strong>Save Map</strong> to download a JSON file with all settings — including airports, routes, range circles, styles, globe position, panel positions, RC filters, marker sizes, and theme. Click <strong>Load Map</strong> to restore everything exactly as it was.</p>
+</details>
+
+<details>
+  <summary>28. Does the map auto-render?</summary>
+  <p>Yes. Changes to the Airports, Routes, and Range Circles text areas trigger an automatic re-render. No need to click <strong>Render Map</strong> manually. You can still use the button if you want a forced refresh.</p>
+</details>
+
+</div>
+</body>
+</html>

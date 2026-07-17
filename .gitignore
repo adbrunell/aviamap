@@ -1,0 +1,14 @@
+# Project files (not for deployment)
+CHANGELOG.md
+Consulting Mapper v*.html
+airports.json
+
+# Airport raw data
+Airport Database/
+
+# Support files
+Support Files and Backup/
+_redirects
+
+# Build / temp
+netlify_deploy.zip
