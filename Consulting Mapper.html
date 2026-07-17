@@ -4542,110 +4542,77 @@ function initApp() {
 <script>
 (function initMobile() {
   var bar = document.getElementById('mobileBar');
-  var sheet = document.getElementById('mobileSheet');
   var backdrop = document.getElementById('mobBackdrop');
-  var content = document.getElementById('mobSheetContent');
-  var title = document.getElementById('mobSheetTitle');
-  var closeBtn = document.getElementById('mobSheetClose');
   var mapBtn = document.getElementById('mobMapBtn');
   var rangeBtn = document.getElementById('mobRangeBtn');
   var current = null;
+  var panel = document.getElementById('controlPanel');
+  var rPanel = document.getElementById('rcSidePanel');
 
-  var lastVw = window.innerWidth, lastVh = window.innerHeight;
-  function onResize() {
-    var mob = window.innerWidth <= 640;
-    var isKeyboard = window.innerWidth === lastVw && window.innerHeight < lastVh;
-    lastVh = window.innerHeight;
-    lastVw = window.innerWidth;
-    if (mob && !isKeyboard && !current) {
-      bar.style.display = 'flex';
-      sheet.style.display = 'flex';
-      backdrop.style.display = 'none';
-    } else if (!mob) {
-      bar.style.display = 'none';
-      sheet.style.display = 'none';
-      backdrop.style.display = 'none';
-      sheet.classList.remove('open');
-      var lpR = document.getElementById('controlPanel');
-      var rpR = document.getElementById('rcSidePanel');
-      if (lpR) { lpR.style.display = ''; lpR.style.position = ''; lpR.style.left = ''; lpR.style.right = ''; lpR.style.top = ''; lpR.style.bottom = ''; lpR.style.width = ''; lpR.style.height = ''; lpR.style.zIndex = ''; lpR.style.borderRadius = ''; lpR.style.borderTop = ''; lpR.style.boxShadow = ''; }
-      if (rpR) { rpR.style.display = ''; rpR.style.position = ''; rpR.style.left = ''; rpR.style.right = ''; rpR.style.top = ''; rpR.style.bottom = ''; rpR.style.width = ''; rpR.style.height = ''; rpR.style.zIndex = ''; rpR.style.borderRadius = ''; rpR.style.borderTop = ''; rpR.style.boxShadow = ''; }
-    }
+  function resetPanel(p) {
+    if (!p) return;
+    p.style.display = 'none';
+    p.style.position = '';
+    p.style.left = ''; p.style.right = ''; p.style.top = ''; p.style.bottom = '';
+    p.style.width = ''; p.style.height = ''; p.style.zIndex = '';
+    p.style.borderRadius = ''; p.style.borderTop = ''; p.style.boxShadow = '';
+    p.style.overflow = '';
   }
 
-  function openSheet(name) {
-    current = name;
-    sheet.classList.add('open');
+  function showAsSheet(p, isRight) {
+    if (!p) return;
+    p.style.display = 'flex';
+    p.style.position = 'fixed';
+    p.style.left = '0'; p.style.right = '0';
+    p.style.top = 'auto'; p.style.bottom = '56px';
+    p.style.width = '100%';
+    p.style.height = 'calc(80vh - 56px)';
+    p.style.zIndex = '4999';
+    p.style.borderRadius = '16px 16px 0 0';
+    p.style.borderTop = '2px solid var(--panelBorder)';
+    p.style.boxShadow = '0 -8px 25px var(--panelShadow)';
+    p.style.overflow = 'hidden';
+    if (isRight) {
+      p.classList.remove('rc-collapsed');
+      var sc = p.querySelector('.rc-side-content');
+      if (sc) { sc.style.display = 'block'; sc.style.overflow = 'auto'; sc.style.paddingBottom = '70px'; }
+    }
     backdrop.style.display = 'block';
-    var lp = document.getElementById('controlPanel');
-    var rp = document.getElementById('rcSidePanel');
+  }
+
+  function openMob(name) {
+    if (current === name) { closeMob(); return; }
+    current = name;
+    resetPanel(panel); resetPanel(rPanel);
     if (name === 'map') {
-      title.textContent = 'Map Settings';
-      if (lp) {
-        lp.style.display = 'flex';
-        lp.style.position = 'fixed';
-        lp.style.left = '0';
-        lp.style.right = '0';
-        lp.style.top = 'auto';
-        lp.style.bottom = '56px';
-        lp.style.width = '100%';
-        lp.style.height = 'calc(80vh - 56px)';
-        lp.style.zIndex = '4999';
-        lp.style.borderRadius = '16px 16px 0 0';
-        lp.style.borderTop = '2px solid var(--panelBorder)';
-        lp.style.boxShadow = '0 -8px 25px var(--panelShadow)';
-      }
-      if (rp) rp.style.display = 'none';
-      mapBtn.classList.add('active');
-      rangeBtn.classList.remove('active');
+      showAsSheet(panel, false);
+      mapBtn.classList.add('active'); rangeBtn.classList.remove('active');
       if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
     } else {
-      title.textContent = 'Range Circles (OASYS)';
       if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
-      if (rp) {
-        rp.style.display = 'flex';
-        rp.style.position = 'fixed';
-        rp.style.left = '0';
-        rp.style.right = '0';
-        rp.style.top = 'auto';
-        rp.style.bottom = '56px';
-        rp.style.width = '100%';
-        rp.style.height = 'calc(80vh - 56px)';
-        rp.style.zIndex = '4999';
-        rp.style.borderRadius = '16px 16px 0 0';
-        rp.style.borderTop = '2px solid var(--panelBorder)';
-        rp.style.boxShadow = '0 -8px 25px var(--panelShadow)';
-        rp.classList.remove('rc-collapsed');
-        rp.style.overflow = 'hidden';
-        rp.querySelector('.rc-side-content').style.display = 'block';
-        rp.querySelector('.rc-side-content').style.overflow = 'auto';
-        rp.querySelector('.rc-side-content').style.paddingBottom = '70px';
-      }
-      if (lp) lp.style.display = 'none';
-      rangeBtn.classList.add('active');
-      mapBtn.classList.remove('active');
+      showAsSheet(rPanel, true);
+      rangeBtn.classList.add('active'); mapBtn.classList.remove('active');
     }
   }
 
-  function closeSheet() {
-    sheet.classList.remove('open');
+  function closeMob() {
+    resetPanel(panel); resetPanel(rPanel);
     backdrop.style.display = 'none';
-    mapBtn.classList.remove('active');
-    rangeBtn.classList.remove('active');
+    mapBtn.classList.remove('active'); rangeBtn.classList.remove('active');
     current = null;
-    var lp = document.getElementById('controlPanel');
-    var rp = document.getElementById('rcSidePanel');
-    if (lp) { lp.style.display = 'none'; lp.style.position = ''; lp.style.left = ''; lp.style.right = ''; lp.style.top = ''; lp.style.bottom = ''; lp.style.width = ''; lp.style.height = ''; lp.style.zIndex = ''; lp.style.borderRadius = ''; lp.style.borderTop = ''; lp.style.boxShadow = ''; }
-    if (rp) { rp.style.display = 'none'; rp.style.position = ''; rp.style.left = ''; rp.style.right = ''; rp.style.top = ''; rp.style.bottom = ''; rp.style.width = ''; rp.style.height = ''; rp.style.zIndex = ''; rp.style.borderRadius = ''; rp.style.borderTop = ''; rp.style.boxShadow = ''; }
   }
 
-  if (bar && sheet && backdrop) {
-    mapBtn.addEventListener('click', function(e) { e.stopPropagation(); if (current === 'map') closeSheet(); else openSheet('map'); });
-    rangeBtn.addEventListener('click', function(e) { e.stopPropagation(); if (current === 'range') closeSheet(); else openSheet('range'); });
-    closeBtn.addEventListener('click', closeSheet);
-    backdrop.addEventListener('click', closeSheet);
-    window.addEventListener('resize', onResize);
-    onResize();
+  if (bar && backdrop) {
+    mapBtn.addEventListener('click', function() { openMob('map'); });
+    rangeBtn.addEventListener('click', function() { openMob('range'); });
+    backdrop.addEventListener('click', closeMob);
+    window.addEventListener('resize', function() {
+      var mob = window.innerWidth <= 640;
+      if (!mob) { closeMob(); bar.style.display = 'none'; backdrop.style.display = 'none'; }
+      else if (!current) { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
+    });
+    bar.style.display = 'flex';
+    backdrop.style.display = 'none';
   }
 })();
 </script>
