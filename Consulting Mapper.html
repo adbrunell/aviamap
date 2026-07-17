@@ -481,7 +481,7 @@ Circle South America
         <div class="statusbar">
             <div id="iataStatus">IATA DB: loading…</div>
             <div id="messages"></div>
-            <div style="font-size:9px;color:var(--textMuted);text-align:right;white-space:nowrap;">3dcb610</div>
+            <div id="deployHash" style="font-size:9px;color:var(--textMuted);text-align:right;white-space:nowrap;">—</div>
         </div>
         </div>
     </div>
@@ -4338,6 +4338,13 @@ function initApp() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="DB_Range Circles.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function() {
+  var dh = document.getElementById('deployHash');
+  if (!dh) return;
+  fetch('/.netlify/deploy-hash').then(function(r) { return r.text(); }).then(function(h) { dh.textContent = h.trim().slice(0, 7); }).catch(function() { dh.textContent = '—'; });
+})();
+</script>
 <script>
 (function initOverlaySelection() {
   var overlay = document.getElementById('rcOnMapOverlay');
