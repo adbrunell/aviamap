@@ -4548,62 +4548,54 @@ function initApp() {
   var panel = document.getElementById('controlPanel');
   var rPanel = document.getElementById('rcSidePanel');
 
-  function hideAll() {
-    if (panel) panel.style.display = 'none';
-    if (rPanel) rPanel.style.display = 'none';
+  function mobHide() {
+    if (panel) { panel.style.display = 'none'; panel.style.position = ''; panel.style.left = ''; panel.style.top = ''; panel.style.width = ''; panel.style.height = ''; panel.style.zIndex = ''; panel.style.borderRadius = ''; panel.style.overflow = ''; }
+    if (rPanel) { rPanel.style.display = 'none'; rPanel.style.position = ''; rPanel.style.left = ''; rPanel.style.top = ''; rPanel.style.width = ''; rPanel.style.height = ''; rPanel.style.zIndex = ''; rPanel.style.borderRadius = ''; rPanel.style.overflow = ''; var sc2 = rPanel.querySelector('.rc-side-content'); if (sc2) { sc2.style.display = ''; sc2.style.overflow = ''; sc2.style.paddingBottom = ''; } }
     backdrop.style.display = 'none';
     mapBtn.classList.remove('active');
     rangeBtn.classList.remove('active');
   }
 
-  function showPanel(p, isRight) {
-    if (!p) return;
-    p.style.display = 'flex';
-    p.style.position = 'fixed';
-    p.style.left = '0'; p.style.right = '0';
-    p.style.top = 'auto'; p.style.bottom = '56px';
-    p.style.width = '100%';
-    p.style.height = 'calc(80vh - 56px)';
-    p.style.zIndex = '4999';
-    p.style.borderRadius = '16px 16px 0 0';
-    p.style.borderTop = '2px solid var(--panelBorder)';
-    p.style.boxShadow = '0 -8px 25px var(--panelShadow)';
-    p.style.overflow = 'hidden';
-    if (isRight) {
-      p.classList.remove('rc-collapsed');
-      var sc = p.querySelector('.rc-side-content');
-      if (sc) { sc.style.display = 'block'; sc.style.overflow = 'auto'; sc.style.paddingBottom = '70px'; }
-    }
-    backdrop.style.display = 'block';
-  }
-
-  function toggleMap() {
-    if (panel && panel.style.display === 'flex') { hideAll(); return; }
-    hideAll();
-    showPanel(panel, false);
-    mapBtn.classList.add('active');
+  mapBtn.addEventListener('click', function() {
+    if (panel && panel.style.display === 'flex') { mobHide(); return; }
+    mobHide();
     if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
-  }
+    panel.style.display = 'flex';
+    panel.style.position = 'fixed';
+    panel.style.left = '5%'; panel.style.top = '5%';
+    panel.style.width = '90%'; panel.style.height = '90%';
+    panel.style.zIndex = '9999';
+    panel.style.borderRadius = '10px';
+    panel.style.overflow = 'hidden';
+    backdrop.style.display = 'block';
+    mapBtn.classList.add('active');
+  });
 
-  function toggleRange() {
-    if (rPanel && rPanel.style.display === 'flex') { hideAll(); return; }
-    hideAll();
+  rangeBtn.addEventListener('click', function() {
+    if (rPanel && rPanel.style.display === 'flex') { mobHide(); return; }
+    mobHide();
     if (typeof window._rcEnsureFilters === 'function') window._rcEnsureFilters();
-    showPanel(rPanel, true);
+    rPanel.style.display = 'flex';
+    rPanel.style.position = 'fixed';
+    rPanel.style.left = '5%'; rPanel.style.top = '5%';
+    rPanel.style.width = '90%'; rPanel.style.height = '90%';
+    rPanel.style.zIndex = '9999';
+    rPanel.style.borderRadius = '10px';
+    rPanel.style.overflow = 'hidden';
+    rPanel.classList.remove('rc-collapsed');
+    var sc = rPanel.querySelector('.rc-side-content');
+    if (sc) { sc.style.display = 'block'; sc.style.overflow = 'auto'; sc.style.paddingBottom = '20px'; }
+    backdrop.style.display = 'block';
     rangeBtn.classList.add('active');
-  }
+  });
 
-  if (bar && backdrop) {
-    mapBtn.addEventListener('click', toggleMap);
-    rangeBtn.addEventListener('click', toggleRange);
-    backdrop.addEventListener('click', hideAll);
-    window.addEventListener('resize', function() {
-      if (window.innerWidth <= 640) { bar.style.display = 'flex'; }
-      else { hideAll(); bar.style.display = 'none'; }
-    });
-    hideAll();
-    bar.style.display = 'flex';
-  }
+  backdrop.addEventListener('click', mobHide);
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 640) { mobHide(); bar.style.display = 'none'; }
+    else { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
+  });
+  mobHide();
+  bar.style.display = 'flex';
 })();
 </script>
 </body>
