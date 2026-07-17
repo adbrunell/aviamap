@@ -4604,8 +4604,7 @@ function initApp() {
     if (window.innerWidth > 640) { mobHide(); bar.style.display = 'none'; }
     else { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
   });
-  mobHide();
-  bar.style.display = 'flex';
+  if (window.innerWidth <= 640) { mobHide(); bar.style.display = 'flex'; }
 })();
 </script>
 </body>
