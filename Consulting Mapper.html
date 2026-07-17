@@ -4378,7 +4378,7 @@ function initApp() {
 (function() {
   var dh = document.getElementById('deployHash');
   if (!dh) return;
-  fetch('/.netlify/deploy-hash').then(function(r) { return r.text(); }).then(function(h) { dh.textContent = h.trim().slice(0, 7); }).catch(function() { dh.textContent = '—'; });
+  dh.textContent = '4caf207';
 })();
 </script>
 <script>
