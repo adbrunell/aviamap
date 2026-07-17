@@ -4538,15 +4538,17 @@ function initApp() {
     if (name === 'map') {
       title.textContent = 'Map Settings';
       content.innerHTML = '';
-      var lp = document.getElementById('controlPanel');
-      if (lp) { var clone = lp.cloneNode(true); clone.querySelector('.panel-header')?.remove(); Array.from(clone.querySelectorAll('[id]')).forEach(function(el) { el.removeAttribute('id'); }); content.appendChild(clone); }
+      var html = '';
+      var ps = document.querySelectorAll('#controlPanel .section, #controlPanel .btns, #controlPanel .statusbar');
+      ps.forEach(function(el) { html += el.outerHTML; });
+      content.innerHTML = html;
       mapBtn.classList.add('active');
       rangeBtn.classList.remove('active');
     } else {
       title.textContent = 'Range Circles (OASYS)';
       content.innerHTML = '';
-      var rp = document.getElementById('rcSidePanel');
-      if (rp) { var clone2 = rp.cloneNode(true); clone2.querySelector('.rc-side-header')?.remove(); clone2.classList.remove('rc-collapsed'); clone2.style.width = ''; Array.from(clone2.querySelectorAll('[id]')).forEach(function(el) { el.removeAttribute('id'); }); content.appendChild(clone2); }
+      var rcContent = document.querySelector('#rcSidePanel .rc-side-content');
+      if (rcContent) content.innerHTML = rcContent.innerHTML;
       rangeBtn.classList.add('active');
       mapBtn.classList.remove('active');
     }
