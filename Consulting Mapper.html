@@ -4571,7 +4571,7 @@ function initApp() {
     var src = document.getElementById('controlPanel');
     if (src) {
       var html = '';
-      src.querySelectorAll('.section, .btns').forEach(function(el) { html += el.outerHTML; });
+      src.querySelectorAll('.section, .btns, .statusbar').forEach(function(el) { html += el.outerHTML; });
       modalContent.innerHTML = html;
     }
     modalDiv.style.display = 'flex';
