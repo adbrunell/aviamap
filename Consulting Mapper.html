@@ -129,10 +129,10 @@
         header .subtitle { font-size: 11px; }
         .header-actions { width: 100%; gap: 4px; flex-wrap: wrap; justify-content: center; }
         .header-actions .btn-link, .header-actions .secondary { font-size: 10px; padding: 3px 6px; }
-        #controlPanel:not(.collapsed) { width: 280px; }
-        #controlPanel.collapsed { width: 42px; }
-        #rcSidePanel:not(.rc-collapsed) { width: 280px !important; }
-        #rcSidePanel.rc-collapsed { width: 42px; }
+        #controlPanel { width: 42px !important; }
+        #controlPanel:not(.collapsed) { width: 100% !important; left: 0 !important; }
+        #rcSidePanel { width: 42px !important; }
+        #rcSidePanel:not(.rc-collapsed) { width: 100% !important; position: fixed !important; left: 0 !important; right: 0 !important; top: auto !important; bottom: 0 !important; height: 60vh !important; border-left: none !important; border-top: 1px solid var(--panelBorder) !important; border-radius: 12px 12px 0 0 !important; z-index: 500 !important; }
         .rc-onmap-overlay .rc-output-row { font-size: 10px; padding: 4px 6px; }
         .rc-onmap-overlay .rc-ac-title { font-size: 10px; }
         .rc-onmap-overlay .rc-info-text { font-size: 9px; }
