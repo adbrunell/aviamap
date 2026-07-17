@@ -142,9 +142,10 @@
         #mobSheetContent .filter-group,
         #mobSheetContent .rc-upload-area,
         #mobSheetContent .statusbar { padding-left: 0; padding-right: 0; }
-        #mobSheetContent input,
-        #mobSheetContent select,
-        #mobSheetContent textarea { font-size: 16px !important; }
+      #mobSheetContent input,
+      #mobSheetContent select,
+      #mobSheetContent textarea { font-size: 16px !important; }
+      #mobSheetContent { padding-bottom: 70px !important; }
         .rc-onmap-overlay .rc-output-row { font-size: 10px; padding: 4px 6px; }
         .rc-onmap-overlay .rc-ac-title { font-size: 10px; }
         .rc-onmap-overlay .rc-info-text { font-size: 9px; }
@@ -4550,16 +4551,19 @@ function initApp() {
   var rangeBtn = document.getElementById('mobRangeBtn');
   var current = null;
 
+  var lastVw = window.innerWidth, lastVh = window.innerHeight;
   function onResize() {
     var mob = window.innerWidth <= 640;
-    if (mob) {
+    var isKeyboard = window.innerWidth === lastVw && window.innerHeight < lastVh;
+    lastVh = window.innerHeight;
+    lastVw = window.innerWidth;
+    if (mob && !isKeyboard) {
       bar.style.display = 'flex';
       sheet.style.display = 'flex';
       backdrop.style.display = 'none';
-      sheet.classList.remove('open');
       document.getElementById('controlPanel').style.display = 'none';
       document.getElementById('rcSidePanel').style.display = 'none';
-    } else {
+    } else if (!mob) {
       bar.style.display = 'none';
       sheet.style.display = 'none';
       backdrop.style.display = 'none';
