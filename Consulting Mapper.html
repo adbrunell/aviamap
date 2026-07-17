@@ -4566,9 +4566,17 @@ function initApp() {
     rangeBtn.classList.remove('active');
   }
 
+  function mobReset() {
+    if (panel) { panel.style.display = ''; mobShowStyles.forEach(function(p) { panel.style[p] = ''; }); var p5 = panel.querySelector('.panel-header'); if (p5) p5.style.display = ''; }
+    if (rPanel) { rPanel.style.display = ''; mobShowStyles.forEach(function(p) { rPanel.style[p] = ''; }); var p6 = rPanel.querySelector('.rc-side-header'); if (p6) p6.style.display = ''; var s7 = rPanel.querySelector('.rc-side-content'); if (s7) { s7.style.display = ''; s7.style.overflow = ''; } }
+  }
+
   mapBtn.addEventListener('click', function() {
     if (panel && panel.style.display === 'flex') { mobHide(); return; }
     if (typeof window._rcClosePanel === 'function') window._rcClosePanel();
+    panel.classList.remove('collapsed');
+    var ph = panel.querySelector('.panel-header');
+    if (ph) ph.style.display = 'none';
     panel.style.display = 'flex';
     panel.style.position = 'fixed';
     panel.style.left = '5%'; panel.style.top = '10%';
@@ -4601,7 +4609,7 @@ function initApp() {
 
   backdrop.addEventListener('click', mobHide);
   window.addEventListener('resize', function() {
-    if (window.innerWidth > 640) { if (panel) { panel.style.position = ''; panel.style.left = ''; panel.style.top = ''; panel.style.width = ''; panel.style.height = ''; panel.style.zIndex = ''; panel.style.borderRadius = ''; panel.style.overflow = ''; } if (rPanel) { rPanel.style.position = ''; rPanel.style.left = ''; rPanel.style.top = ''; rPanel.style.width = ''; rPanel.style.height = ''; rPanel.style.zIndex = ''; rPanel.style.borderRadius = ''; rPanel.style.overflow = ''; var sc3 = rPanel.querySelector('.rc-side-content'); if (sc3) { sc3.style.display = ''; sc3.style.overflow = ''; } } bar.style.display = 'none'; backdrop.style.display = 'none'; }
+    if (window.innerWidth > 640) { mobReset(); bar.style.display = 'none'; backdrop.style.display = 'none'; }
     else { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
   });
   if (window.innerWidth <= 640) { bar.style.display = 'flex'; backdrop.style.display = 'none'; }
