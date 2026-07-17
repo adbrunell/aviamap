@@ -879,7 +879,7 @@ function initApp() {
   syncZoomControl(orthoZoomK);
   const zoom = d3.zoom()
     .scaleExtent([0.5, 20])
-    .filter((event) => event.type === 'wheel' || event.type === 'dblclick' || event.type.startsWith('touch'))
+    .filter((event) => event.type === 'wheel' || event.type === 'dblclick' || (event.type.startsWith('touch') && event.touches && event.touches.length >= 2))
     .on('zoom', (event) => {
       const w = Math.max(300, +mapWidthEl.value || 1000);
       const h = Math.max(300, +mapHeightEl.value || 600);
