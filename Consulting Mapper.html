@@ -4557,21 +4557,19 @@ function initApp() {
     var isKeyboard = window.innerWidth === lastVw && window.innerHeight < lastVh;
     lastVh = window.innerHeight;
     lastVw = window.innerWidth;
-    if (mob && !isKeyboard) {
+    if (mob && !isKeyboard && !current) {
       bar.style.display = 'flex';
       sheet.style.display = 'flex';
       backdrop.style.display = 'none';
-      var lpR = document.getElementById('controlPanel');
-      var rpR = document.getElementById('rcSidePanel');
-      if (lpR) { lpR.style.display = 'none'; lpR.style.position = ''; lpR.style.left = ''; lpR.style.right = ''; lpR.style.top = ''; lpR.style.bottom = ''; lpR.style.width = ''; lpR.style.height = ''; lpR.style.zIndex = ''; lpR.style.borderRadius = ''; lpR.style.borderTop = ''; lpR.style.boxShadow = ''; }
-      if (rpR) { rpR.style.display = 'none'; rpR.style.position = ''; rpR.style.left = ''; rpR.style.right = ''; rpR.style.top = ''; rpR.style.bottom = ''; rpR.style.width = ''; rpR.style.height = ''; rpR.style.zIndex = ''; rpR.style.borderRadius = ''; rpR.style.borderTop = ''; rpR.style.boxShadow = ''; }
     } else if (!mob) {
       bar.style.display = 'none';
       sheet.style.display = 'none';
       backdrop.style.display = 'none';
       sheet.classList.remove('open');
-      document.getElementById('controlPanel').style.display = '';
-      document.getElementById('rcSidePanel').style.display = '';
+      var lpR = document.getElementById('controlPanel');
+      var rpR = document.getElementById('rcSidePanel');
+      if (lpR) { lpR.style.display = ''; lpR.style.position = ''; lpR.style.left = ''; lpR.style.right = ''; lpR.style.top = ''; lpR.style.bottom = ''; lpR.style.width = ''; lpR.style.height = ''; lpR.style.zIndex = ''; lpR.style.borderRadius = ''; lpR.style.borderTop = ''; lpR.style.boxShadow = ''; }
+      if (rpR) { rpR.style.display = ''; rpR.style.position = ''; rpR.style.left = ''; rpR.style.right = ''; rpR.style.top = ''; rpR.style.bottom = ''; rpR.style.width = ''; rpR.style.height = ''; rpR.style.zIndex = ''; rpR.style.borderRadius = ''; rpR.style.borderTop = ''; rpR.style.boxShadow = ''; }
     }
   }
 
